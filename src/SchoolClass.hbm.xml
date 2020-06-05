@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="SchoolClass" table="schoolClasses">
+		<id name="id" column="id" type="long">
+			<generator class="native"></generator>
+		</id>
+		
+		<property name="profile" column="profile" type="string"></property>
+		<property name="currentYear" column="currentYear" type="integer"></property>
+		<property name="startYear" column="StartYear" type="integer"></property>
+		
+		<set name="students" cascade="all">
+			<key column="class_id" />
+			<one-to-many class="Student" />
+		</set>
+
+		<set name="teachers" table="teachers_classes" inverse="false" lazy="true" fetch="select" cascade="all">
+			<key>
+				<column name="class_id" not-null="true"/>
+			</key>
+			<many-to-many entity-name="Teacher">
+				<column name="teacher_id" not-null="true"></column>
+			</many-to-many>
+		</set>
+
+	</class>
+</hibernate-mapping>
